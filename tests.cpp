@@ -356,6 +356,12 @@ TEST(intrusive_list_testing, iterators_11)
     EXPECT_EQ(1, it2->value);
 }
 
+TEST(intrusive_list_testing, iterators_12)
+{
+  intrusive::list<node> list;
+  EXPECT_EQ(list.begin(), std::as_const(list).begin());
+}
+
 TEST(intrusive_list_testing, insert_01)
 {
     intrusive::list<node> list;
