@@ -356,6 +356,12 @@ TEST(intrusive_list_testing, iterators_11)
     EXPECT_EQ(1, it2->value);
 }
 
+TEST(intrusive_list_testing, iterators_12)
+{
+  intrusive::list<node> list;
+  EXPECT_EQ(list.begin(), std::as_const(list).begin());
+}
+
 TEST(intrusive_list_testing, insert_01)
 {
     intrusive::list<node> list;
@@ -459,6 +465,35 @@ TEST(intrusive_list_testing, insert_05)
     EXPECT_TRUE(it1 == list.begin());
     ++it1;
     EXPECT_EQ(3, it1->value);
+}
+
+TEST(intrusive_list_testing, insert_06)
+{
+    intrusive::list<node> list1, list2;
+    node a(1);
+    list1.push_back(a);
+    list2.push_back(a);
+    EXPECT_TRUE(list1.empty());
+    EXPECT_FALSE(list2.empty());
+}
+
+TEST(intrusive_list_testing, insert_07)
+{
+    intrusive::list<node> list;
+    node a(1), b(2), c(3);
+    list.push_back(a);
+    list.push_back(b);
+    list.push_back(c);
+
+    auto b_iter = std::next(list.begin());
+    list.insert(b_iter, b);
+    expect_eq(list, {1, 2, 3});
+
+    list.insert(b_iter, a);
+    expect_eq(list, {1, 2, 3});
+
+    list.insert(b_iter, c);
+    expect_eq(list, {1, 3, 2});
 }
 
 TEST(intrusive_list_testing, erase_01)
