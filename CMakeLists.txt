@@ -37,6 +37,6 @@ endif()
 
 set(BASE_TESTS_SOURCES tests.cpp intrusive_list.h intrusive_list.cpp)
 add_executable(base-tests ${BASE_TESTS_SOURCES})
-add_executable(tests advanced_tests.cpp ${BASE_TESTS_SOURCES})
+add_executable(tests ${BASE_TESTS_SOURCES} advanced_tests.cpp)
 target_link_libraries(base-tests gtest_main)
 target_link_libraries(tests gtest_main)
