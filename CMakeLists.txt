@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.0)
 project(intrusive_list)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -28,12 +28,15 @@ add_subdirectory(
 )
 
 if (CYGWIN OR MINGW OR MSYS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-sign-compare -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow=compatible-local -Wno-sign-compare -pedantic")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 elseif (NOT MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-sign-compare -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow=compatible-local -Wno-sign-compare -pedantic")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=undefined,address,leak -fno-sanitize-recover=all -D_GLIBCXX_DEBUG")
 endif()
 
-add_executable(tests tests.cpp intrusive_list.h intrusive_list.cpp)
+set(BASE_TESTS_SOURCES tests.cpp intrusive_list.h intrusive_list.cpp)
+add_executable(base-tests ${BASE_TESTS_SOURCES})
+add_executable(tests ${BASE_TESTS_SOURCES} advanced_tests.cpp)
+target_link_libraries(base-tests gtest_main)
 target_link_libraries(tests gtest_main)

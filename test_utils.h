@@ -40,3 +40,21 @@ void expect_eq(C& cont, std::initializer_list<int> values)
                    std::make_reverse_iterator(cont.end()),
                    std::make_reverse_iterator(cont.begin()));
 }
+
+struct node : intrusive::list_element<>
+{
+    explicit node(int value)
+        : value(value)
+    {}
+
+    int value;
+};
+
+struct multi_node : intrusive::list_element<struct tag_a>, intrusive::list_element<struct tag_b>
+{
+    explicit multi_node(int value)
+        : value(value)
+    {}
+
+    int value;
+};
